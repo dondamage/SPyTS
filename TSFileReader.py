@@ -1,5 +1,6 @@
-import TSPacket
-import exceptions.TSPacketError as TSPacketError
+
+import SPyTS.TSPacket
+import SPyTS.exceptions.TSPacketError
 
 class TSFileReader(object):
   """A class for reading of transport stream files."""
@@ -54,7 +55,7 @@ class TSFileReader(object):
     """Resynchronize to the file."""
     sync = False
     sync_pos = 0
-    chunk_size = (TSFileReader.SYNC_LOCK_BYTES - 1) * PKT_LEN + 1
+    chunk_size = (TSFileReader.SYNC_LOCK_BYTES - 1) * TSFileReader.PKT_LEN + 1
     tmp = self._fd.peek(chunk_size)
     while len(tmp) == chunk_size:
       for pos in range(len(tmp)):
@@ -73,11 +74,15 @@ class TSFileReader(object):
     return sync
   def read(self):
     """Read one TSPacket and return it."""
-    tp = TSPacket.TSPacket(self._fd.read(PKT_LEN))
+    tp_raw = self.read_raw()
+    if len(tp_raw) == TSFileReader.PKT_LEN:
+      tp = TSPacket.TSPacket(tp_raw)
+    else:
+      tp = None
     return tp
   def read_raw(self):
     """Read one raw TS packet and return it."""
-    return self._fd.read(PKT_LEN)
+    return self._fd.read(TSFileReader.PKT_LEN)
   def close(self):
     """Close the current file."""
     if self.closed:
