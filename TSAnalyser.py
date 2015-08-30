@@ -1,5 +1,5 @@
-import TSPacket
-import TSPacketStatistic
+import SPyTS.TSPacket
+import SPyTS.TSPacketStatistic
 
 class TSAnalyser(object):
   """A class to perform analysis of a sequence of MPEG2 transport stream
@@ -11,8 +11,9 @@ class TSAnalyser(object):
     self.pid_analysis = {}
     # Store the previous TSPacket of each PID as status information.
     self.pid_status = {}
-    # Perform PCR analysis.
+    # PCR analysis.
     self.perform_pcr_analysis = False # NOTE: not implemented yet.
+    self.pcr_pid = None
   def __repr__(self):
     """Return string representation of the TSPacket object."""
     return "{0} not implemented.".format(self.__repr__.__name__)
@@ -81,10 +82,19 @@ class TSAnalyser(object):
       self.pid_analysis[pid].cc_skip_count[skip_cc] += 1
     
     af = pkt.adaptation_field()
-    if self.perform_pcr_analysis and af is not None:
-      pcr_flag = af.pcr_flag()
+    if af is not None and len(af) > 1:
+      # The AdaptationField class is not implemented yet, so the PCR flag must
+      # be extracted manually.
+      # pcr_flag = af.pcr_flag()
+      pcr_flag = af[1] & 0x10
       if pcr_flag == 1:
         self.ts_analysis.pcr_count += 1
         self.pid_analysis[pid].pcr_count += 1
     
     self.pid_status[pid] = pkt
+    
+  def get_pcr_pids(self):
+    """Return a list of PIDs which contain PCR values."""
+    pcr_pids = [x for x in self.pid_analysis.keys() if self.pid_analysis[x].pcr_count > 0]
+    return pcr_pids
+
