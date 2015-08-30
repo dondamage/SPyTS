@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class PIDFilterError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class PIDFilterError(SPyTSError.SPyTSError):
   def __init__(self, msg="PIDFilterError occured."):
     self.msg = msg
+

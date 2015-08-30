@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class TSFileReaderError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class TSFileReaderError(SPyTSError.SPyTSError):
   def __init__(self, msg="TSFileReaderError occured."):
     self.msg = msg
+

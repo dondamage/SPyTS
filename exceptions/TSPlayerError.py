@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class TSPlayerError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class TSPlayerError(SPyTSError.SPyTSError):
   def __init__(self, msg="TSPlayerError occured."):
     self.msg = msg
+

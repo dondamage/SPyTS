@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class TSPacketError(SPyTS_API_Error.SPyTS_API_Error):
+from SPyTS.exceptions.SPyTSError import SPyTSError
+
+class TSPacketError(SPyTSError):
   def __init__(self, msg="TSPacketError occured."):
     self.msg = msg
+

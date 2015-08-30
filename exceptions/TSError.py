@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class TSError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class TSError(SPyTSError.SPyTSError):
   def __init__(self, msg="TSError occured."):
     self.msg = msg
+

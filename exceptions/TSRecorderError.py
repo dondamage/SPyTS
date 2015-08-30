@@ -1,5 +1,7 @@
-TSMuxErrorfrom . import SPyTS_API_Error
 
-class TSRecorderError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class TSRecorderError(SPyTSError.SPyTSError):
   def __init__(self, msg="TSRecorderError occured."):
     self.msg = msg
+

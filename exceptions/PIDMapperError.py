@@ -1,5 +1,7 @@
-from . import SPyTS_API_Error
 
-class PIDMapperError(SPyTS_API_Error.SPyTS_API_Error):
+from . import SPyTSError
+
+class PIDMapperError(SPyTS_API_Error.SPyTSError):
   def __init__(self, msg="PIDMapperError occured."):
     self.msg = msg
+
