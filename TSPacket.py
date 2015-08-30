@@ -2,8 +2,8 @@ import binascii # hexlify()
 import io # BufferedReader
 import struct # unpack()
 
-import TSFileReader
-import exceptions.TSPacketError as TSPacketError
+from SPyTS.TSFileReader import TSFileReader
+from SPyTS.exceptions.TSPacketError import TSPacketError
 
 class TSPacket(object):
   """A class representing an MPEG2 transport stream packet."""
@@ -32,29 +32,29 @@ class TSPacket(object):
         if len(raw_pkt) == TSPacket._LENGTH:
           self.raw_pkt = bytearray(raw_pkt)
         else:
-          raise TSPacketError.TSPacketError("A TSPacket can not be constructed"
+          raise TSPacketError("A TSPacket can not be constructed"
             +" from the given object.")
       else:
-        raise TSPacketError.TSPacketError("A TSPacket can not be constructed"
+        raise TSPacketError("A TSPacket can not be constructed"
           +" from the given object.")
-    elif isinstance(init, TSFileReader.TSFileReader):
+    elif isinstance(init, TSFileReader):
       tp = init.read(1)
       if tp is not None:
         self.raw_pkt = tp.raw_pkt.copy()
       else:
-        raise TSPacketError.TSPacketError("A TSPacket can not be constructed"
+        raise TSPacketError("A TSPacket can not be constructed"
           +" from the given object.")
     elif isinstance(init, bytes):
       if len(init) == TSPacket._LENGTH:
         self.raw_pkt = bytearray(init)
       else:
-        raise TSPacketError.TSPacketError("A TSPacket can not be constructed"
+        raise TSPacketError("A TSPacket can not be constructed"
           +" from the given object.")
     elif isinstance(init, bytearray):
       if len(init) == TSPacket._LENGTH:
         self.raw_pkt = init.copy()
       else:
-        raise TSPacketError.TSPacketError("A TSPacket can not be constructed"
+        raise TSPacketError("A TSPacket can not be constructed"
           +" from the given object.")
     else:
       raise TypeError("A TSPacket can not be constructed from this type.")
@@ -119,7 +119,7 @@ class TSPacket(object):
     if self.has_payload():
       if self.has_adaptation_field():
         af_len = self.body()[0]
-        return self.body[af_len+1:]
+        return self.body()[af_len+1:]
       else:
         return self.body()
     else:
@@ -134,3 +134,4 @@ class TSPacket(object):
       return self.body()[:af_len]
     else:
       return None
+
