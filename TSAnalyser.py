@@ -1,5 +1,5 @@
-import SPyTS.TSPacket
-import SPyTS.TSPacketStatistic
+import SPyTS.TSPacket as TSPacket
+import SPyTS.TSPacketStatistic as TSPacketStatistic
 
 class TSAnalyser(object):
   """A class to perform analysis of a sequence of MPEG2 transport stream

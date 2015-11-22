@@ -1,6 +1,6 @@
 
-import SPyTS.TSPacket
-import SPyTS.exceptions.TSPacketError
+import SPyTS.TSPacket as TSPacket
+import SPyTS.exceptions.TSPacketError as TSPacketError
 
 class TSFileReader(object):
   """A class for reading of transport stream files."""
